@@ -1,9 +1,7 @@
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
-import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -27,30 +25,12 @@ android {
         }
     }
 
-    val keystorePropertiesFile = rootProject.file("keystore/keystore.properties")
-    val keystoreProperties = Properties()
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-
-    signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties.getProperty("alias")
-            keyPassword = keystoreProperties.getProperty("key_password")
-            storeFile = rootProject.file("keystore/TestKeystore.jks")
-            storePassword = keystoreProperties.getProperty("key_store_password")
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
-            enableV4Signing = true
-        }
-    }
-
     buildTypes {
         debug {
 
         }
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
