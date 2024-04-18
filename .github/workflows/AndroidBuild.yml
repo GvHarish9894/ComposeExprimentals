@@ -35,10 +35,13 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Generate Android App Bundle
+        run: ./gradlew bundleRelease
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
           path: |
             app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*.apk
-
+            app/build/outputs/bundle/release/*.abb
